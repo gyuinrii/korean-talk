@@ -43,12 +43,33 @@ const enhPhrases: LyricsPhrase[] = [
     song: 'Future Perfect (Pass the MIC)',
     artist: 'enh',
   },
+  {
+    korean: '폴라로이드 같은 우리',
+    romanji: 'pollaroido gateun uri',
+    japanese: 'ポラロイドみたいな僕たち',
+    song: 'Polaroid Love',
+    artist: 'enh',
+  },
+  {
+    korean: '역설 속에 살아가',
+    romanji: 'yeokseol soge saraga',
+    japanese: '逆説の中に生きてる',
+    song: 'ParadoXXX',
+    artist: 'enh',
+  },
+  {
+    korean: '날 물어봐',
+    romanji: 'nal mureobwa',
+    japanese: '僕に噛みついて',
+    song: 'Bite Me',
+    artist: 'enh',
+  },
 ]
 
 const zb1Phrases: LyricsPhrase[] = [
   {
     korean: '활짝 피어나',
-    romanji: 'hwaljjak pieoな',
+    romanji: 'hwaljjak pieona',
     japanese: '満開に咲いて',
     song: 'IN BLOOM',
     artist: 'zb1',
@@ -86,6 +107,27 @@ const zb1Phrases: LyricsPhrase[] = [
     romanji: 'naneun ilgop beonjjae gamgak',
     japanese: '僕は7番目の感覚',
     song: 'Exhibition : 7 SENSE',
+    artist: 'zb1',
+  },
+  {
+    korean: '그늘 속 청춘이여',
+    romanji: 'geuneul sok cheonghchuniyo',
+    japanese: '影の中の青春よ',
+    song: 'Youth in the Shade',
+    artist: 'zb1',
+  },
+  {
+    korean: '시간이 멈춘 것 같아',
+    romanji: 'sigani meomchun geot gata',
+    japanese: '時が止まったみたい',
+    song: 'Timeless',
+    artist: 'zb1',
+  },
+  {
+    korean: '새로운 시작이야',
+    romanji: 'saeroun sijagiya',
+    japanese: '新しいスタートだ',
+    song: 'New Kidz on the Block',
     artist: 'zb1',
   },
 ]
@@ -133,6 +175,27 @@ const twsPhrases: LyricsPhrase[] = [
     song: '첫 만남 (First Meeting)',
     artist: 'tws',
   },
+  {
+    korean: '마지막 종소리',
+    romanji: 'majimak jongsori',
+    japanese: '最後の鐘の音',
+    song: 'Last Bell',
+    artist: 'tws',
+  },
+  {
+    korean: '별의 낮잠',
+    romanji: 'byeorui natjam',
+    japanese: '星の昼寝',
+    song: 'Nap of a Star',
+    artist: 'tws',
+  },
+  {
+    korean: '예상치 못한 전개',
+    romanji: 'yesangchi motan jeongae',
+    japanese: '予想外の展開',
+    song: 'plot twist (another ver.)',
+    artist: 'tws',
+  },
 ]
 
 const bndPhrases: LyricsPhrase[] = [
@@ -176,6 +239,27 @@ const bndPhrases: LyricsPhrase[] = [
     romanji: 'byeolbit araeseo',
     japanese: '星の光の下で',
     song: '별의 별 (Star of Stars)',
+    artist: 'bnd',
+  },
+  {
+    korean: '학교로 돌아가',
+    romanji: 'hakgyoro doraga',
+    japanese: '学校に戻ろう',
+    song: 'Back to School',
+    artist: 'bnd',
+  },
+  {
+    korean: '나이스 가이',
+    romanji: 'naiseu gai',
+    japanese: 'ナイスガイ',
+    song: 'NICE GUY',
+    artist: 'bnd',
+  },
+  {
+    korean: '땅, 바람, 그리고 불',
+    romanji: 'ttang, baram, geurigo bul',
+    japanese: '大地、風、そして炎',
+    song: 'Earth, Wind & Fire',
     artist: 'bnd',
   },
 ]

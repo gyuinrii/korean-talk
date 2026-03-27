@@ -1,6 +1,9 @@
 'use client'
 
 export default function Header() {
+  // 固定値: fandomVocab(35) + oshikatsuVocab(35) + lyrics(4×9=36) + quotes(5) + recommended(20) = 131
+  const totalWords = 131
+
   return (
     <header style={{ textAlign: 'center', padding: '36px 0 20px' }}>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
@@ -56,9 +59,23 @@ export default function Header() {
         lineHeight: 1,
         marginBottom: '8px',
       }}>한국어 KPOP</h1>
-      <p style={{ color: 'var(--muted)', fontSize: '12px', letterSpacing: '1px' }}>
+      <p style={{ color: 'var(--muted)', fontSize: '12px', letterSpacing: '1px', marginBottom: '10px' }}>
         K-POPで韓国語を学ぼう ✦
       </p>
+      <div style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+        padding: '5px 14px',
+        borderRadius: '20px',
+        background: 'rgba(192,132,252,0.08)',
+        border: '1px solid rgba(192,132,252,0.2)',
+        color: 'var(--accent)',
+        fontSize: '12px',
+        fontWeight: 700,
+      }}>
+        💜 {totalWords}語 収録
+      </div>
     </header>
   )
 }

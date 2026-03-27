@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import ModeSelector from '@/components/ModeSelector'
 import FlashCard from '@/components/FlashCard'
 import QuizCard from '@/components/QuizCard'
 import TypingQuiz from '@/components/TypingQuiz'
 import ArtistTabs from '@/components/ArtistTabs'
 import type { StudyMode, VocabItem, LyricsPhrase, ArtistId } from '@/lib/types'
+import { getLearned } from '@/lib/learned'
 
 interface StudySessionProps {
   title: string
@@ -15,6 +16,15 @@ interface StudySessionProps {
   selectedArtist?: ArtistId
   onArtistChange?: (id: ArtistId) => void
   onBack: () => void
+}
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
 }
 
 export default function StudySession({
@@ -27,8 +37,29 @@ export default function StudySession({
 }: StudySessionProps) {
   const [mode, setMode] = useState<StudyMode>('flashcard')
   const [completed, setCompleted] = useState(false)
+  const [shuffle, setShuffle] = useState(false)
+  const [learnedCount, setLearnedCount] = useState(0)
 
-  const handleComplete = () => setCompleted(true)
+  useEffect(() => {
+    const updateLearned = () => {
+      const learned = getLearned()
+      const count = items.filter(item => learned.has(item.korean)).length
+      setLearnedCount(count)
+    }
+    updateLearned()
+  }, [items])
+
+  const displayItems = useMemo(() => {
+    if (shuffle) return shuffleArray(items)
+    return items
+  }, [items, shuffle])
+
+  const handleComplete = () => {
+    const learned = getLearned()
+    const count = items.filter(item => learned.has(item.korean)).length
+    setLearnedCount(count)
+    setCompleted(true)
+  }
   const handleRestart = () => setCompleted(false)
 
   return (
@@ -63,6 +94,20 @@ export default function StudySession({
           }}>
             {title}
           </h2>
+          {learnedCount > 0 && (
+            <span style={{
+              padding: '3px 10px',
+              borderRadius: '20px',
+              background: 'rgba(74,222,128,0.12)',
+              border: '1px solid rgba(74,222,128,0.3)',
+              color: '#4ade80',
+              fontSize: '11px',
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
+            }}>
+              ✓ {learnedCount}語学習済み
+            </span>
+          )}
           <span style={{
             marginLeft: 'auto',
             color: 'var(--muted)',
@@ -76,6 +121,26 @@ export default function StudySession({
         {showArtistTabs && selectedArtist && onArtistChange && (
           <ArtistTabs selected={selectedArtist} onChange={onArtistChange} />
         )}
+
+        {/* シャッフルトグル */}
+        <div style={{ marginBottom: '16px' }}>
+          <button
+            onClick={() => { setShuffle(s => !s); setCompleted(false) }}
+            style={{
+              padding: '8px 16px',
+              borderRadius: '10px',
+              border: `1px solid ${shuffle ? 'var(--accent)' : 'var(--border)'}`,
+              background: shuffle ? 'rgba(192,132,252,0.12)' : 'transparent',
+              color: shuffle ? 'var(--accent)' : 'var(--muted)',
+              fontSize: '13px',
+              cursor: 'pointer',
+              fontWeight: shuffle ? 700 : 400,
+              transition: 'all 0.2s',
+            }}
+          >
+            🔀 ランダム順
+          </button>
+        </div>
 
         {/* モード選択 */}
         <ModeSelector selected={mode} onChange={(m) => { setMode(m); setCompleted(false) }} />
@@ -129,11 +194,11 @@ export default function StudySession({
               </div>
             </div>
           ) : mode === 'flashcard' ? (
-            <FlashCard key={`flash-${selectedArtist}`} items={items} onComplete={handleComplete} />
+            <FlashCard key={`flash-${selectedArtist}-${shuffle}`} items={displayItems} onComplete={handleComplete} />
           ) : mode === 'quiz' ? (
-            <QuizCard key={`quiz-${selectedArtist}`} items={items} onComplete={handleComplete} />
+            <QuizCard key={`quiz-${selectedArtist}-${shuffle}`} items={displayItems} onComplete={handleComplete} />
           ) : (
-            <TypingQuiz key={`typing-${selectedArtist}`} items={items} onComplete={handleComplete} />
+            <TypingQuiz key={`typing-${selectedArtist}-${shuffle}`} items={displayItems} onComplete={handleComplete} />
           )}
         </div>
       </div>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import type { VocabItem, LyricsPhrase } from '@/lib/types'
+import { getFavorites, toggleFavorite } from '@/lib/favorites'
+import { getLearned, markLearned } from '@/lib/learned'
 
 interface FlashCardProps {
   items: VocabItem[] | LyricsPhrase[]
@@ -15,9 +17,18 @@ function isLyricsPhrase(item: VocabItem | LyricsPhrase): item is LyricsPhrase {
 export default function FlashCard({ items, onComplete }: FlashCardProps) {
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
+  const [favorites, setFavorites] = useState<Set<string>>(new Set())
+  const [learned, setLearned] = useState<Set<string>>(new Set())
+  const [justLearned, setJustLearned] = useState(false)
+
+  useEffect(() => {
+    setFavorites(getFavorites())
+    setLearned(getLearned())
+  }, [])
 
   useEffect(() => {
     setFlipped(false)
+    setJustLearned(false)
   }, [index, items])
 
   const item = items[index]
@@ -34,6 +45,22 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
   const handlePrev = () => {
     if (index > 0) setIndex(i => i - 1)
   }
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newFavs = toggleFavorite(item.korean)
+    setFavorites(new Set(newFavs))
+  }
+
+  const handleMarkLearned = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newLearned = markLearned(item.korean)
+    setLearned(new Set(newLearned))
+    setJustLearned(true)
+  }
+
+  const isFav = favorites.has(item.korean)
+  const isLearnedItem = learned.has(item.korean)
 
   return (
     <div className="animate-fade-in">
@@ -73,8 +100,32 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
       <div
         className="flip-card"
         onClick={() => setFlipped(f => !f)}
-        style={{ cursor: 'pointer', minHeight: '220px', marginBottom: '24px' }}
+        style={{ cursor: 'pointer', minHeight: '220px', marginBottom: '24px', position: 'relative' }}
       >
+        {/* お気に入りボタン（カード右上） */}
+        <button
+          onClick={handleToggleFavorite}
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '22px',
+            lineHeight: 1,
+            padding: '4px',
+            color: isFav ? '#f87171' : 'var(--muted)',
+            transition: 'color 0.2s, transform 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.2)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+          title={isFav ? 'お気に入り解除' : 'お気に入りに追加'}
+        >
+          {isFav ? '♥' : '♡'}
+        </button>
+
         <div className={`flip-card-inner${flipped ? ' flipped' : ''}`} style={{ minHeight: '220px' }}>
           {/* 表面: 日本語 */}
           <div
@@ -145,6 +196,29 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
           </div>
         </div>
       </div>
+
+      {/* 覚えたボタン（裏面表示後） */}
+      {flipped && (
+        <div className="animate-fade-in" style={{ marginBottom: '12px' }}>
+          <button
+            onClick={handleMarkLearned}
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '12px',
+              border: `1px solid ${isLearnedItem || justLearned ? '#4ade80' : 'var(--border)'}`,
+              background: isLearnedItem || justLearned ? 'rgba(74,222,128,0.1)' : 'transparent',
+              color: isLearnedItem || justLearned ? '#4ade80' : 'var(--muted)',
+              cursor: isLearnedItem ? 'default' : 'pointer',
+              fontSize: '13px',
+              fontWeight: isLearnedItem || justLearned ? 700 : 400,
+              transition: 'all 0.2s',
+            }}
+          >
+            {isLearnedItem || justLearned ? '✓ 覚えた！' : '✓ 覚えた'}
+          </button>
+        </div>
+      )}
 
       {/* ボタン */}
       <div style={{ display: 'flex', gap: '12px' }}>

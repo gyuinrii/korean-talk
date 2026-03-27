@@ -1,6 +1,14 @@
 import type { VocabItem } from './types'
 
+export const fandomNames: VocabItem[] = [
+  { korean: '엔진', romanji: 'ENGENE', japanese: 'ENHYPENのファンダム名' },
+  { korean: '제로즈', romanji: 'ZEROSE', japanese: 'ZEROBASEONEのファンダム名' },
+  { korean: '튜즈데이', romanji: 'TUESDAY', japanese: 'TWSのファンダム名' },
+  { korean: '넥스트', romanji: 'NEXT', japanese: 'BOYNEXT DOORのファンダム名' },
+]
+
 export const fandomVocab: VocabItem[] = [
+  ...fandomNames,
   { korean: '팬클럽', romanji: 'paen-keullop', japanese: 'ファンクラブ' },
   { korean: '팬미팅', romanji: 'paen-miting', japanese: 'ファンミーティング' },
   { korean: '컴백', romanji: 'keombaek', japanese: 'カムバック' },
@@ -23,4 +31,17 @@ export const fandomVocab: VocabItem[] = [
   { korean: '월드투어', romanji: 'woldeu-tueo', japanese: 'ワールドツアー' },
   { korean: '스케줄', romanji: 'seukejul', japanese: 'スケジュール' },
   { korean: '티저', romanji: 'tijeo', japanese: 'ティーザー' },
+  { korean: '엠카운트다운', romanji: 'em-kaunteudown', japanese: 'M COUNTDOWN（音楽番組）' },
+  { korean: '뮤직뱅크', romanji: 'myujik-baengkeu', japanese: 'Music Bank（音楽番組）' },
+  { korean: '인기가요', romanji: 'ingigayo', japanese: 'Inkigayo（音楽番組）' },
+  { korean: '쇼챔피언', romanji: 'syo-chaempieon', japanese: 'Show Champion（音楽番組）' },
+  { korean: '스트리밍', romanji: 'seuteuriming', japanese: 'ストリーミング' },
+  { korean: '팬덤', romanji: 'paendeom', japanese: 'ファンダム' },
+  { korean: '대기실', romanji: 'daegisil', japanese: '楽屋' },
+  { korean: '리허설', romanji: 'riheoseol', japanese: 'リハーサル' },
+  { korean: '본방사수', romanji: 'bonbang-sasu', japanese: 'リアタイ視聴（生放送を必ず見ること）' },
+  { korean: '음원', romanji: 'eumwon', japanese: '音源' },
+  { korean: '뮤비', romanji: 'myubi', japanese: 'MV（ミュージックビデオの略）' },
+  { korean: '자켓', romanji: 'jaket', japanese: 'ジャケット写真' },
+  { korean: '클립', romanji: 'keullip', japanese: 'クリップ映像' },
 ]

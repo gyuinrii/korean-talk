@@ -1,5 +1,5 @@
 export type ArtistId = 'enh' | 'zb1' | 'tws' | 'bnd'
-export type CategoryId = 'fandom' | 'oshikatsu' | 'lyrics' | 'quotes'
+export type CategoryId = 'fandom' | 'oshikatsu' | 'lyrics' | 'quotes' | 'recommended' | 'favorites'
 export type StudyMode = 'flashcard' | 'quiz' | 'typing'
 
 export interface Quote {

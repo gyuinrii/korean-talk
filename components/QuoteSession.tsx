@@ -1,12 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { Quote, StudyMode } from '@/lib/types'
 import ModeSelector from '@/components/ModeSelector'
+import { getFavorites, toggleFavorite } from '@/lib/favorites'
 
 interface QuoteSessionProps {
   quotes: Quote[]
   onBack: () => void
+}
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
 }
 
 // ── フラッシュカード ──────────────────────────────────────
@@ -14,6 +24,11 @@ function QuoteFlashCard({ quotes, onComplete }: { quotes: Quote[]; onComplete: (
   const [index, setIndex] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [showEpisode, setShowEpisode] = useState(false)
+  const [favorites, setFavorites] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    setFavorites(getFavorites())
+  }, [])
 
   const q = quotes[index]
   const total = quotes.length
@@ -28,6 +43,14 @@ function QuoteFlashCard({ quotes, onComplete }: { quotes: Quote[]; onComplete: (
     if (index > 0) { setIndex(i => i - 1); setFlipped(false); setShowEpisode(false) }
   }
 
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newFavs = toggleFavorite(q.korean)
+    setFavorites(new Set(newFavs))
+  }
+
+  const isFav = favorites.has(q.korean)
+
   return (
     <div className="animate-fade-in">
       {/* 進捗 */}
@@ -40,7 +63,31 @@ function QuoteFlashCard({ quotes, onComplete }: { quotes: Quote[]; onComplete: (
       </div>
 
       {/* カード */}
-      <div className="flip-card" onClick={() => setFlipped(f => !f)} style={{ cursor: 'pointer', minHeight: '200px', marginBottom: '16px' }}>
+      <div className="flip-card" onClick={() => setFlipped(f => !f)} style={{ cursor: 'pointer', minHeight: '200px', marginBottom: '16px', position: 'relative' }}>
+        {/* お気に入りボタン */}
+        <button
+          onClick={handleToggleFavorite}
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '22px',
+            lineHeight: 1,
+            padding: '4px',
+            color: isFav ? '#f87171' : 'var(--muted)',
+            transition: 'color 0.2s, transform 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.2)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+          title={isFav ? 'お気に入り解除' : 'お気に入りに追加'}
+        >
+          {isFav ? '♥' : '♡'}
+        </button>
+
         <div className={`flip-card-inner${flipped ? ' flipped' : ''}`} style={{ minHeight: '200px' }}>
           {/* 表: 日本語 */}
           <div className="flip-card-front" style={{
@@ -323,6 +370,7 @@ function QuoteTyping({ quotes, onComplete }: { quotes: Quote[]; onComplete: () =
             background: result === 'correct' ? 'rgba(74,222,128,0.08)' : result === 'wrong' ? 'rgba(248,113,113,0.08)' : 'var(--card)',
             color: 'var(--text)', fontSize: '15px', outline: 'none',
             fontFamily: 'inherit', resize: 'none', lineHeight: 1.7, transition: 'border-color 0.2s',
+            minHeight: '80px',
           }}
         />
       </div>
@@ -386,6 +434,12 @@ function QuoteTyping({ quotes, onComplete }: { quotes: Quote[]; onComplete: () =
 export default function QuoteSession({ quotes, onBack }: QuoteSessionProps) {
   const [mode, setMode] = useState<StudyMode>('flashcard')
   const [completed, setCompleted] = useState(false)
+  const [shuffle, setShuffle] = useState(false)
+
+  const displayQuotes = useMemo(() => {
+    if (shuffle) return shuffleArray(quotes)
+    return quotes
+  }, [quotes, shuffle])
 
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
@@ -402,6 +456,26 @@ export default function QuoteSession({ quotes, onBack }: QuoteSessionProps) {
             💬 名言クイズ
           </h2>
           <span style={{ marginLeft: 'auto', color: 'var(--muted)', fontSize: '12px' }}>{quotes.length}フレーズ</span>
+        </div>
+
+        {/* シャッフルトグル */}
+        <div style={{ marginBottom: '16px' }}>
+          <button
+            onClick={() => { setShuffle(s => !s); setCompleted(false) }}
+            style={{
+              padding: '8px 16px',
+              borderRadius: '10px',
+              border: `1px solid ${shuffle ? 'var(--accent)' : 'var(--border)'}`,
+              background: shuffle ? 'rgba(192,132,252,0.12)' : 'transparent',
+              color: shuffle ? 'var(--accent)' : 'var(--muted)',
+              fontSize: '13px',
+              cursor: 'pointer',
+              fontWeight: shuffle ? 700 : 400,
+              transition: 'all 0.2s',
+            }}
+          >
+            🔀 ランダム順
+          </button>
         </div>
 
         <ModeSelector selected={mode} onChange={(m) => { setMode(m); setCompleted(false) }} />
@@ -424,11 +498,11 @@ export default function QuoteSession({ quotes, onBack }: QuoteSessionProps) {
               </div>
             </div>
           ) : mode === 'flashcard' ? (
-            <QuoteFlashCard quotes={quotes} onComplete={() => setCompleted(true)} />
+            <QuoteFlashCard key={`flash-${shuffle}`} quotes={displayQuotes} onComplete={() => setCompleted(true)} />
           ) : mode === 'quiz' ? (
-            <QuoteQuiz quotes={quotes} onComplete={() => setCompleted(true)} />
+            <QuoteQuiz key={`quiz-${shuffle}`} quotes={displayQuotes} onComplete={() => setCompleted(true)} />
           ) : (
-            <QuoteTyping quotes={quotes} onComplete={() => setCompleted(true)} />
+            <QuoteTyping key={`typing-${shuffle}`} quotes={displayQuotes} onComplete={() => setCompleted(true)} />
           )}
         </div>
       </div>

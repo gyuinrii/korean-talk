@@ -11,6 +11,14 @@ export function markLearned(korean: string): Set<string> {
   return learned
 }
 
+export function toggleLearned(korean: string): Set<string> {
+  const learned = getLearned()
+  if (learned.has(korean)) learned.delete(korean)
+  else learned.add(korean)
+  localStorage.setItem('kpop-learned', JSON.stringify(Array.from(learned)))
+  return learned
+}
+
 export function isLearned(korean: string): boolean {
   return getLearned().has(korean)
 }

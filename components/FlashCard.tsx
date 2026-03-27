@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import type { VocabItem, LyricsPhrase } from '@/lib/types'
 import { getFavorites, toggleFavorite } from '@/lib/favorites'
-import { getLearned, markLearned } from '@/lib/learned'
+import { getLearned, toggleLearned } from '@/lib/learned'
 
 interface FlashCardProps {
   items: VocabItem[] | LyricsPhrase[]
@@ -19,7 +19,6 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
   const [flipped, setFlipped] = useState(false)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const [learned, setLearned] = useState<Set<string>>(new Set())
-  const [justLearned, setJustLearned] = useState(false)
 
   useEffect(() => {
     setFavorites(getFavorites())
@@ -28,7 +27,6 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
 
   useEffect(() => {
     setFlipped(false)
-    setJustLearned(false)
   }, [index, items])
 
   const item = items[index]
@@ -52,11 +50,10 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
     setFavorites(new Set(newFavs))
   }
 
-  const handleMarkLearned = (e: React.MouseEvent) => {
+  const handleToggleLearned = (e: React.MouseEvent) => {
     e.stopPropagation()
-    const newLearned = markLearned(item.korean)
+    const newLearned = toggleLearned(item.korean)
     setLearned(new Set(newLearned))
-    setJustLearned(true)
   }
 
   const isFav = favorites.has(item.korean)
@@ -201,21 +198,21 @@ export default function FlashCard({ items, onComplete }: FlashCardProps) {
       {flipped && (
         <div className="animate-fade-in" style={{ marginBottom: '12px' }}>
           <button
-            onClick={handleMarkLearned}
+            onClick={handleToggleLearned}
             style={{
               width: '100%',
               padding: '10px',
               borderRadius: '12px',
-              border: `1px solid ${isLearnedItem || justLearned ? '#4ade80' : 'var(--border)'}`,
-              background: isLearnedItem || justLearned ? 'rgba(74,222,128,0.1)' : 'transparent',
-              color: isLearnedItem || justLearned ? '#4ade80' : 'var(--muted)',
-              cursor: isLearnedItem ? 'default' : 'pointer',
+              border: `1px solid ${isLearnedItem ? '#4ade80' : 'var(--border)'}`,
+              background: isLearnedItem ? 'rgba(74,222,128,0.1)' : 'transparent',
+              color: isLearnedItem ? '#4ade80' : 'var(--muted)',
+              cursor: 'pointer',
               fontSize: '13px',
-              fontWeight: isLearnedItem || justLearned ? 700 : 400,
+              fontWeight: isLearnedItem ? 700 : 400,
               transition: 'all 0.2s',
             }}
           >
-            {isLearnedItem || justLearned ? '✓ 覚えた！' : '✓ 覚えた'}
+            {isLearnedItem ? '✓ 覚えた！（タップで取り消し）' : '✓ 覚えた'}
           </button>
         </div>
       )}

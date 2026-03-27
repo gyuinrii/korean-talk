@@ -24,8 +24,8 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: '한국어 TALK — ENH × ZB1 × SVT',
-  description: '推しのグループで韓国語を話そう',
+  title: '한국어 KPOP — ENH × ZB1 × TWS × BND',
+  description: 'K-POPファンの韓国語単語学習アプリ',
 }
 
 export default function RootLayout({

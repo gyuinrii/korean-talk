@@ -1,0 +1,26 @@
+import type { VocabItem } from './types'
+
+export const fandomVocab: VocabItem[] = [
+  { korean: '팬클럽', romanji: 'paen-keullop', japanese: 'ファンクラブ' },
+  { korean: '팬미팅', romanji: 'paen-miting', japanese: 'ファンミーティング' },
+  { korean: '컴백', romanji: 'keombaek', japanese: 'カムバック' },
+  { korean: '뮤직비디오', romanji: 'myujik-bidio', japanese: 'ミュージックビデオ' },
+  { korean: '음방', romanji: 'eumbang', japanese: '音楽番組' },
+  { korean: '1위', romanji: 'irwi', japanese: '1位' },
+  { korean: '쇼케이스', romanji: 'syokeis-eu', japanese: 'ショーケース' },
+  { korean: '콘서트', romanji: 'konseoteu', japanese: 'コンサート' },
+  { korean: '위버스', romanji: 'wiboseu', japanese: 'Weverse' },
+  { korean: '버블', romanji: 'beobeul', japanese: 'Bubble' },
+  { korean: '직관', romanji: 'jikgwan', japanese: '現場観戦' },
+  { korean: '굿즈', romanji: 'gutseu', japanese: 'グッズ' },
+  { korean: '앨범', romanji: 'aelbom', japanese: 'アルバム' },
+  { korean: '응원봉', romanji: 'eungwonbong', japanese: 'ペンライト' },
+  { korean: '팬사인회', romanji: 'paen-sainhwe', japanese: 'ファンサイン会' },
+  { korean: '챔피언십', romanji: 'chaempieon-sip', japanese: '音楽番組1位' },
+  { korean: '데뷔', romanji: 'debwi', japanese: 'デビュー' },
+  { korean: '솔로', romanji: 'sollo', japanese: 'ソロ' },
+  { korean: '유닛', romanji: 'yunit', japanese: 'ユニット' },
+  { korean: '월드투어', romanji: 'woldeu-tueo', japanese: 'ワールドツアー' },
+  { korean: '스케줄', romanji: 'seukejul', japanese: 'スケジュール' },
+  { korean: '티저', romanji: 'tijeo', japanese: 'ティーザー' },
+]

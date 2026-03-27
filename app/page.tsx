@@ -1,27 +1,81 @@
 'use client'
 
+import { useState } from 'react'
 import Header from '@/components/Header'
-import ScoreBar from '@/components/ScoreBar'
-import GroupTabs from '@/components/GroupTabs'
-import ModeBar from '@/components/ModeBar'
-import ScenarioGrid from '@/components/ScenarioGrid'
-import ChatContainer from '@/components/chat/ChatContainer'
-import VocabPanel from '@/components/vocab/VocabPanel'
-import { useChat } from '@/hooks/useChat'
+import CategoryCard from '@/components/CategoryCard'
+import StudySession from '@/components/StudySession'
+import { fandomVocab } from '@/lib/fandom-vocab'
+import { oshikatsuVocab } from '@/lib/oshikatsu-vocab'
+import { lyricsByArtist } from '@/lib/lyrics'
+import type { CategoryId, ArtistId } from '@/lib/types'
 
 export default function Home() {
-  const { sendMessage, inputRef } = useChat()
+  const [category, setCategory] = useState<CategoryId | null>(null)
+  const [artist, setArtist] = useState<ArtistId>('enh')
+
+  if (category === 'fandom') {
+    return (
+      <StudySession
+        title="ファンダム用語"
+        items={fandomVocab}
+        onBack={() => setCategory(null)}
+      />
+    )
+  }
+
+  if (category === 'oshikatsu') {
+    return (
+      <StudySession
+        title="推し活用語"
+        items={oshikatsuVocab}
+        onBack={() => setCategory(null)}
+      />
+    )
+  }
+
+  if (category === 'lyrics') {
+    return (
+      <StudySession
+        title="歌詞フレーズ"
+        items={lyricsByArtist[artist]}
+        showArtistTabs
+        selectedArtist={artist}
+        onArtistChange={setArtist}
+        onBack={() => setCategory(null)}
+      />
+    )
+  }
 
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>
-      <div style={{ maxWidth: '740px', margin: '0 auto', padding: '0 16px 120px' }}>
+      <div style={{ maxWidth: '740px', margin: '0 auto', padding: '0 16px 80px' }}>
         <Header />
-        <ScoreBar />
-        <GroupTabs />
-        <ModeBar />
-        <ScenarioGrid />
-        <VocabPanel inputRef={inputRef} />
-        <ChatContainer onSend={sendMessage} inputRef={inputRef} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '8px' }}>
+          <CategoryCard
+            id="fandom"
+            emoji="💜"
+            title="ファンダム用語"
+            desc="K-POPファンなら知っておきたい必須用語"
+            color="#c084fc"
+            onClick={() => setCategory('fandom')}
+          />
+          <CategoryCard
+            id="oshikatsu"
+            emoji="⭐"
+            title="推し活用語"
+            desc="덕질・최애・포카など推し活に使う言葉"
+            color="#f472b6"
+            onClick={() => setCategory('oshikatsu')}
+          />
+          <CategoryCard
+            id="lyrics"
+            emoji="🎵"
+            title="歌詞フレーズ"
+            desc="ENH・ZB1・TWS・BNDの代表曲から学ぶ"
+            color="#38bdf8"
+            onClick={() => setCategory('lyrics')}
+          />
+        </div>
       </div>
     </div>
   )

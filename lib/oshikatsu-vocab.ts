@@ -1,0 +1,26 @@
+import type { VocabItem } from './types'
+
+export const oshikatsuVocab: VocabItem[] = [
+  { korean: '덕질', romanji: 'deokjil', japanese: '推し活' },
+  { korean: '최애', romanji: 'choeae', japanese: '最推し' },
+  { korean: '차애', romanji: 'chaae', japanese: '二番推し' },
+  { korean: '직캠', romanji: 'jikkaem', japanese: '直カム / fancam' },
+  { korean: '포카', romanji: 'poka', japanese: 'フォトカード' },
+  { korean: '포카 교환', romanji: 'poka gyohwan', japanese: 'フォトカード交換' },
+  { korean: '팬아트', romanji: 'paen-ateu', japanese: 'ファンアート' },
+  { korean: '팬편지', romanji: 'paen-pyeonji', japanese: 'ファンレター' },
+  { korean: '공구', romanji: 'gonggu', japanese: '共同購入' },
+  { korean: '조공', romanji: 'jogong', japanese: 'アイドルへの貢ぎ物' },
+  { korean: '생일카페', romanji: 'saengil-kape', japanese: 'バースデーカフェ' },
+  { korean: '스밍', romanji: 'seuming', japanese: 'ストリーミング' },
+  { korean: '총공', romanji: 'chonggong', japanese: '総攻撃（一斉ストリーミング）' },
+  { korean: '입덕', romanji: 'ipdeok', japanese: '沼落ち' },
+  { korean: '탈덕', romanji: 'taldeok', japanese: '沼抜け' },
+  { korean: '사진', romanji: 'sajin', japanese: '写真' },
+  { korean: '직찍', romanji: 'jikjjik', japanese: '直撮り写真' },
+  { korean: '홈마', romanji: 'homma', japanese: 'ホームマスター（応援カメラマン）' },
+  { korean: '오빠', romanji: 'oppa', japanese: 'お兄さん（ファンが男性アイドルに呼ぶ）' },
+  { korean: '언니', romanji: 'eonni', japanese: 'お姉さん' },
+  { korean: '남친짤', romanji: 'namchin-jjal', japanese: '彼氏っぽい写真' },
+  { korean: '심쿵', romanji: 'simkung', japanese: '胸キュン' },
+]

@@ -49,14 +49,7 @@ export default function Home() {
     <div style={{ position: 'relative', zIndex: 1 }}>
       <div style={{ maxWidth: '740px', margin: '0 auto', padding: '0 16px 80px' }}>
         <Header />
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '16px',
-          marginTop: '8px',
-        }}
-          className="category-grid"
-        >
+        <div style={{ display: 'grid', gap: '16px', marginTop: '8px' }} className="category-grid">
           <CategoryCard
             id="fandom"
             emoji="💜"

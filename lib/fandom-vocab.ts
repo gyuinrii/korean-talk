@@ -3,8 +3,8 @@ import type { VocabItem } from './types'
 export const fandomNames: VocabItem[] = [
   { korean: '엔진', romanji: 'ENGENE', japanese: 'ENHYPENのファンダム名' },
   { korean: '제로즈', romanji: 'ZEROSE', japanese: 'ZEROBASEONEのファンダム名' },
-  { korean: '튜즈데이', romanji: 'TUESDAY', japanese: 'TWSのファンダム名' },
-  { korean: '넥스트', romanji: 'NEXT', japanese: 'BOYNEXT DOORのファンダム名' },
+  { korean: '42', romanji: 'Forty Two', japanese: 'TWSのファンダム名' },
+  { korean: '원도어', romanji: 'ONE DOOR', japanese: 'BOYNEXT DOORのファンダム名' },
 ]
 
 export const fandomVocab: VocabItem[] = [

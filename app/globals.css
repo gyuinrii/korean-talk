@@ -96,12 +96,12 @@ body::before {
   animation: msgIn 0.28s ease;
 }
 
-/* カテゴリグリッド: モバイルでは1列 */
+/* カテゴリグリッド: モバイルでは1列、600px以上で2列 */
 .category-grid {
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .category-grid {
     grid-template-columns: repeat(2, 1fr);
   }
